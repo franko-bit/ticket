@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafafa;
+            min-height: 100vh;
+            padding: 32px 20px;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            color: #666;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            background: #f5f5f5;
+            border-color: #d1d1d1;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .form-section {
+            background: white;
+            padding: 32px;
+            border-radius: 16px;
+            border: 1px solid #e8e8e8;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-section h2 {
+            color: #1a1a1a;
+            margin-bottom: 32px;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .copy-input {
+            width: 80px !important;
+            text-align: center;
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 14px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .generate-btn:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .ticket-section {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px;
+        }
+
+        .ticket-card {
+            border-radius: 15px;
+            width: 280px;
+            min-height: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .ticket-card:hover {
+            transform: scale(1.05) rotate(1deg);
+        }
+
+        /* Insurance-based color schemes using your palette */
+        .ticket-rssb {
+            background: linear-gradient(135deg, #8eb2a8 0%, #4c6f67 100%);
+            border-color: #4c6f67;
+        }
+
+        .ticket-mmi {
+            background: linear-gradient(135deg, #1a3a53 0%, #1a3a52 100%);
+            border-color: #1a3a52;
+        }
+
+        .ticket-private {
+            background: linear-gradient(135deg, #e07b71 0%, #f7998c 100%);
+            border-color: #f7998c;
+        }
+
+        .ticket-cbhi {
+            background: linear-gradient(135deg, #564737 0%, #000000 100%);
+            border-color: #564737;
+        }
+
+        .ticket-other {
+            background: linear-gradient(135deg, #4c6f67 0%, #8eb2a8 100%);
+            border-color: #4c6f67;
+        }
+
+        .ticket-default {
+            background: linear-gradient(135deg, #e6c4a3 0%, #e07b71 100%);
+            border-color: #f7998c;
+        }
+
+        .ticket-header {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px dashed rgba(255, 255, 255, 0.6);
+            position: relative;
+        }
+
+        .ticket-number {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .clinic-name {
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .clinic-subtitle {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .ticket-body {
+            padding: 25px 20px;
+            color: white;
+        }
+
+        .ticket-field {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ticket-field:last-child {
+            margin-bottom: 0;
+        }
+
+        .field-label {
+            font-weight: bold;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.9);
+            min-width: 80px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .field-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            text-align: right;
+            max-width: 60%;
+            word-wrap: break-word;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .ticket-footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: white;
+            font-size: 10px;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .barcode {
+            height: 30px;
+            background: repeating-linear-gradient(
+                90deg,
+                white 0px,
+                white 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            width: 56px;
+            height: 56px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .print-btn:hover {
+            background: #333;
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .insurance-preview {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .preview-rssb { background: linear-gradient(135deg, #8eb2a8 0%, #4c6f67 100%); }
+        .preview-mmi { background: linear-gradient(135deg, #1a3a53 0%, #1a3a52 100%); }
+        .preview-private { background: linear-gradient(135deg, #e07b71 0%, #f7998c 100%); }
+        .preview-cbhi { background: linear-gradient(135deg, #e6c4a3 0%, #fce2b8 100%); }
+        .preview-other { background: linear-gradient(135deg, #4c6f67 0%, #8eb2a8 100%); }
+        .preview-default { background: linear-gradient(135deg, #e6c4a3 0%, #e07b71 100%); }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .form-section,
+            .print-btn,
+            .back-btn {
+                display: none;
+            }
+            
+            .container {
+                display: block;
+                max-width: none;
+            }
+            
+            .ticket-section {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 0;
+                page-break-inside: avoid;
+            }
+
+            .ticket-card {
+                box-shadow: none;
+                border-width: 2px;
+                margin: 20px;
+                page-break-inside: avoid;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            /* Ensure colors print correctly */
+            .ticket-card * {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+
+            /* Print multiple copies */
+            .print-copies {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-around;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .print-copies .ticket-card {
+                width: 280px;
+                margin: 10px;
+            }
+        }
+
+        /* Tablet styles */
+        @media (max-width: 1024px) {
+            .container {
+                max-width: 900px;
+                grid-template-columns: 380px 1fr;
+                gap: 32px;
+            }
+            
+            body {
+                padding: 24px 16px;
+            }
+        }
+
+        /* Mobile landscape and small tablets */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+                max-width: 100%;
+            }
+
+            body {
+                padding: 16px 12px;
+            }
+
+            .form-section {
+                padding: 20px;
+                border-radius: 12px;
+            }
+
+            .form-section h2 {
+                font-size: 20px;
+                margin-bottom: 24px;
+            }
+
+            .form-group {
+                margin-bottom: 20px;
+            }
+
+            .ticket-card {
+                width: 100%;
+                max-width: 300px;
+                min-height: 380px;
+            }
+
+            .ticket-header {
+                padding: 16px;
+            }
+
+            .clinic-name {
+                font-size: 16px;
+            }
+
+            .clinic-subtitle {
+                font-size: 13px;
+            }
+
+            .ticket-body {
+                padding: 20px 16px;
+            }
+
+            .field-label {
+                font-size: 11px;
+                min-width: 70px;
+            }
+
+            .field-value {
+                font-size: 13px;
+                max-width: 65%;
+            }
+
+            .ticket-footer {
+                padding: 12px;
+            }
+
+            .footer-text {
+                font-size: 9px;
+            }
+
+            .print-btn {
+                bottom: 16px;
+                right: 16px;
+                width: 52px;
+                height: 52px;
+                font-size: 18px;
+            }
+
+            .back-btn {
+                margin-bottom: 20px;
+                padding: 10px 16px;
+                font-size: 15px;
+            }
+
+            .insurance-preview {
+                margin-top: 12px;
+                padding: 10px;
+                font-size: 13px;
+            }
+        }
+
+        /* Mobile portrait */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px 8px;
+            }
+
+            .form-section {
+                padding: 16px;
+                margin: 0 4px;
+            }
+
+            .form-section h2 {
+                font-size: 18px;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .form-group input,
+            .form-group select {
+                padding: 14px 12px;
+                font-size: 16px; /* Prevents zoom on iOS */
+                border-radius: 6px;
+            }
+
+            .copy-input {
+                width: 100px !important;
+                font-size: 16px !important;
+            }
+
+            .generate-btn {
+                padding: 16px;
+                font-size: 16px;
+                margin-top: 12px;
+            }
+
+            .ticket-section {
+                padding-top: 12px;
+            }
+
+            .ticket-card {
+                max-width: 280px;
+                min-height: 360px;
+                margin: 0 auto;
+            }
+
+            .ticket-header {
+                padding: 14px;
+            }
+
+            .ticket-number {
+                top: 8px;
+                right: 12px;
+                padding: 4px 8px;
+                font-size: 16px;
+            }
+
+            .clinic-name {
+                font-size: 15px;
+            }
+
+            .clinic-subtitle {
+                font-size: 12px;
+            }
+
+            .ticket-body {
+                padding: 18px 14px;
+            }
+
+            .ticket-field {
+                margin-bottom: 12px;
+            }
+
+            .field-label {
+                font-size: 10px;
+                min-width: 65px;
+            }
+
+            .field-value {
+                font-size: 12px;
+                max-width: 70%;
+            }
+
+            .ticket-footer {
+                padding: 10px;
+            }
+
+            .footer-text {
+                font-size: 8px;
+                margin-bottom: 3px;
+            }
+
+            .barcode {
+                height: 25px;
+                margin-top: 8px;
+            }
+
+            .print-btn {
+                bottom: 12px;
+                right: 12px;
+                width: 48px;
+                height: 48px;
+                font-size: 16px;
+            }
+
+            .back-btn {
+                margin-bottom: 16px;
+                padding: 8px 14px;
+                font-size: 14px;
+            }
+
+            .insurance-preview {
+                margin-top: 10px;
+                padding: 8px;
+                font-size: 12px;
+                border-radius: 6px;
+            }
+        }
+
+        /* Very small screens */
+        @media (max-width: 320px) {
+            .ticket-card {
+                max-width: 260px;
+                min-height: 340px;
+            }
+
+            .ticket-header {
+                padding: 12px;
+            }
+
+            .clinic-name {
+                font-size: 14px;
+            }
+
+            .ticket-body {
+                padding: 16px 12px;
+            }
+
+            .field-label {
+                font-size: 9px;
+                min-width: 60px;
+            }
+
+            .field-value {
+                font-size: 11px;
+            }
+
+            .form-section {
+                padding: 12px;
+            }
+
+            .form-section h2 {
+                font-size: 16px;
+            }
+        }
+
+        /* Print responsive adjustments */
+        @media print {
+            /* Print multiple copies responsive layout */
+            .print-copies {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: flex-start;
+                gap: 15px;
+                padding: 10px;
+            }
+
+            .print-copies .ticket-card {
+                width: 250px;
+                min-height: 350px;
+                margin: 5px;
+                flex-shrink: 0;
+            }
+
+            /* Fit 2 tickets per row on standard paper */
+            @media print and (max-width: 8.5in) {
+                .print-copies .ticket-card {
+                    width: 3.8in;
+                    min-height: 4.5in;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="back-btn" onclick="goBack()">
+        <span>←</span> Back
+    </button>
+    
+    <div class="container">
+        <div class="form-section">
+            <h2>Generate Medical Ticket</h2>
+            <form id="ticketForm">
+                <div class="form-group">
+                    <label for="doctorName">Doctor Name <span class="required">*</span></label>
+                    <input type="text" id="doctorName" name="doctorName" placeholder="Dr. John Smith" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="clinicName">Clinic Name</label>
+                    <input type="text" id="clinicName" name="clinicName" value="Legacy Clinique" placeholder="Clinic name">
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department <span class="required">*</span></label>
+                    <select id="department" name="department" required>
+                        <option value="">Select department</option>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Neurology">Neurology</option>
+                        <option value="Orthopedics">Orthopedics</option>
+                        <option value="Pediatrics">Pediatrics</option>
+                        <option value="Dermatology">Dermatology</option>
+                        <option value="Gynecology">Gynecology</option>
+                        <option value="General Medicine">General Medicine</option>
+                        <option value="Emergency">Emergency</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="insurance">Insurance</label>
+                    <select id="insurance" name="insurance">
+                        <option value="RSSB">RSSB</option>
+                        <option value="MMI">MMI</option>
+                        <option value="Private">Private</option>
+                        <option value="CBHI">CBHI</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div id="insurancePreview" class="insurance-preview preview-rssb">
+                        RSSB - Green Theme
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="appointmentDate">Appointment Date</label>
+                    <input type="date" id="appointmentDate" name="appointmentDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="copies">Number of Copies</label>
+                    <input type="number" id="copies" name="copies" value="1" min="1" max="100" class="copy-input">
+                </div>
+
+                <button type="submit" class="generate-btn">Generate Ticket</button>
+            </form>
+        </div>
+
+        <div class="ticket-section">
+            <div class="ticket-card ticket-rssb" id="ticketCard">
+                <div class="ticket-header">
+                    <div class="ticket-number" id="ticketNumber">#0001</div>
+                    <h3 class="clinic-name" id="ticketClinic">Legacy Clinique</h3>
+                    <p class="clinic-subtitle">Medical Appointment</p>
+                </div>
+                
+                <div class="ticket-body">
+                    <div class="ticket-field">
+                        <label class="field-label">Doctor:</label>
+                        <span class="field-value" id="ticketDoctor">—</span>
+                    </div>
+                    <div class="ticket-field">
+                        <label class="field-label">Department:</label>
+                        <span class="field-value" id="ticketDepartment">—</span>
+                    </div>
+                    <div class="ticket-field">
+                        <label class="field-label">Insurance:</label>
+                        <span class="field-value" id="ticketInsurance">RSSB</span>
+                    </div>
+                    <div class="ticket-field">
+                        <label class="field-label">Date:</label>
+                        <span class="field-value" id="ticketDate">—</span>
+                    </div>
+                    <div class="ticket-field">
+                        <label class="field-label">Time:</label>
+                        <span class="field-value" id="ticketTime">—</span>
+                    </div>
+                </div>
+                
+                <div class="ticket-footer">
+                    <p class="footer-text">Please arrive 15 minutes before your appointment</p>
+                    <p class="footer-text">Bring this ticket and your ID</p>
+                    <div class="barcode"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-btn" id="printBtn" onclick="printTicket()" title="Print Ticket">
+        🖨️
+    </button>
+    
+    <script>
+        let ticketCounter = 1;
+        let currentTicketData = null;
+
+        // Insurance color mapping with your custom palette
+        const insuranceColors = {
+            'RSSB': { class: 'rssb', name: 'RSSB - Sage Green Theme' },
+            'MMI': { class: 'mmi', name: 'MMI - Deep Blue Theme' },
+            'Private': { class: 'private', name: 'Private - Coral Theme' },
+            'CBHI': { class: 'cbhi', name: 'CBHI - Cream Theme' },
+            'Other': { class: 'other', name: 'Other - Teal Theme' }
+        };
+
+        // Update insurance preview when selection changes
+        document.getElementById('insurance').addEventListener('change', function() {
+            const insurance = this.value;
+            const preview = document.getElementById('insurancePreview');
+            const colorData = insuranceColors[insurance] || { class: 'default', name: 'Default Theme' };
+            
+            preview.className = `insurance-preview preview-${colorData.class}`;
+            preview.textContent = colorData.name;
+            
+            // Update ticket card preview
+            const ticketCard = document.getElementById('ticketCard');
+            ticketCard.className = `ticket-card ticket-${colorData.class}`;
+        });
+
+        document.getElementById('ticketForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const doctorName = document.getElementById('doctorName').value.trim();
+            const clinicName = document.getElementById('clinicName').value.trim();
+            const department = document.getElementById('department').value;
+            const insurance = document.getElementById('insurance').value;
+            const appointmentDate = document.getElementById('appointmentDate').value;
+            const copies = parseInt(document.getElementById('copies').value) || 1;
+
+            // Validate required fields
+            if (!doctorName || !department) {
+                alert('Please fill in all required fields (Doctor Name and Department)');
+                return;
+            }
+
+            // Generate current time
+            const now = new Date();
+            const currentTime = now.toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: true
+            });
+
+            // Format date
+            let formattedDate = 'Today';
+            if (appointmentDate) {
+                const selectedDate = new Date(appointmentDate);
+                formattedDate = selectedDate.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+            }
+
+            // Store current ticket data
+            currentTicketData = {
+                doctorName,
+                clinicName: clinicName || 'Legacy Clinique',
+                department,
+                insurance: insurance || 'Not specified',
+                formattedDate,
+                currentTime,
+                copies
+            };
+
+            // Update ticket elements
+            document.getElementById('ticketNumber').textContent = `#${String(ticketCounter).padStart(4, '0')}`;
+            document.getElementById('ticketClinic').textContent = currentTicketData.clinicName;
+            document.getElementById('ticketDoctor').textContent = doctorName;
+            document.getElementById('ticketDepartment').textContent = department;
+            document.getElementById('ticketInsurance').textContent = currentTicketData.insurance;
+            document.getElementById('ticketDate').textContent = formattedDate;
+            document.getElementById('ticketTime').textContent = currentTime;
+
+            // Update ticket color based on insurance
+            const ticketCard = document.getElementById('ticketCard');
+            const colorData = insuranceColors[insurance] || { class: 'default' };
+            ticketCard.className = `ticket-card ticket-${colorData.class}`;
+
+            // Add animation effect
+            ticketCard.style.transform = 'scale(1.02)';
+            setTimeout(() => {
+                ticketCard.style.transform = 'scale(1)';
+            }, 200);
+
+            // Increment counter for next ticket
+            ticketCounter++;
+
+            // Scroll to ticket on mobile
+            if (window.innerWidth <= 768) {
+                ticketCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+
+        // Set today's date as default
+        document.getElementById('appointmentDate').valueAsDate = new Date();
+
+        function printTicket() {
+            if (!currentTicketData) {
+                alert('Please generate a ticket first');
+                return;
+            }
+
+            const copies = currentTicketData.copies;
+            
+            // Create print content with multiple copies
+            let printContent = '<div class="print-copies">';
+            
+            for (let i = 0; i < copies; i++) {
+                const colorData = insuranceColors[currentTicketData.insurance] || { class: 'default' };
+                const ticketNumber = String(ticketCounter - 1 + i).padStart(4, '0');
+                
+                printContent += `
+                    <div class="ticket-card ticket-${colorData.class}">
+                        <div class="ticket-header">
+                            <div class="ticket-number">#${ticketNumber}</div>
+                            <h3 class="clinic-name">${currentTicketData.clinicName}</h3>
+                            <p class="clinic-subtitle">Medical Appointment</p>
+                        </div>
+                        
+                        <div class="ticket-body">
+                            <div class="ticket-field">
+                                <label class="field-label">Doctor:</label>
+                                <span class="field-value">${currentTicketData.doctorName}</span>
+                            </div>
+                            <div class="ticket-field">
+                                <label class="field-label">Department:</label>
+                                <span class="field-value">${currentTicketData.department}</span>
+                            </div>
+                            <div class="ticket-field">
+                                <label class="field-label">Insurance:</label>
+                                <span class="field-value">${currentTicketData.insurance}</span>
+                            </div>
+                            <div class="ticket-field">
+                                <label class="field-label">Date:</label>
+                                <span class="field-value">${currentTicketData.formattedDate}</span>
+                            </div>
+                            <div class="ticket-field">
+                                <label class="field-label">Time:</label>
+                                <span class="field-value">${currentTicketData.currentTime}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="ticket-footer">
+                            <p class="footer-text">Please arrive 15 minutes before your appointment</p>
+                            <p class="footer-text">Bring this ticket and your ID</p>
+                            <div class="barcode"></div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            printContent += '</div>';
+            
+            // Update the ticket section for printing
+            const originalContent = document.querySelector('.ticket-section').innerHTML;
+            document.querySelector('.ticket-section').innerHTML = printContent;
+            
+            // Print
+            window.print();
+            
+            // Restore original content
+            document.querySelector('.ticket-section').innerHTML = originalContent;
+            
+            // Update counter for next batch
+            ticketCounter += copies - 1;
+        }
+
+        function goBack() {
+            window.history.back();
+        }
+
+        // Smooth hover animations
+        const ticketCard = document.getElementById('ticketCard');
+        
+        ticketCard.addEventListener('mouseenter', function() {
+            if (window.innerWidth > 768) {
+                this.style.transform = 'translateY(-4px) scale(1.02)';
+            }
+        });
+
+        ticketCard.addEventListener('mouseleave', function() {
+            if (window.innerWidth > 768) {
+                this.style.transform = 'translateY(0) scale(1)';
+            }
+        });
+    </script>
+</body>
+</html>
