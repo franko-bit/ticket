@@ -211,7 +211,7 @@
 
         .clinic-subtitle {
             color: rgba(255, 255, 255, 0.95);
-            font-size: 24px;
+            font-size: 14px;
             font-weight: bold;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         }
@@ -333,6 +333,233 @@
         .preview-other { background: linear-gradient(135deg, #4c6f67 0%, #8eb2a8 100%); }
         .preview-default { background: linear-gradient(135deg, #e6c4a3 0%, #e07b71 100%); }
 
+        /* Dashboard Modal Styles */
+        .dashboard-btn {
+            position: fixed;
+            bottom: 32px;
+            left: 32px;
+            width: 56px;
+            height: 56px;
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .dashboard-btn:hover {
+            background: #333;
+            transform: scale(1.05);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dashboard-modal {
+            background: white;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .dashboard-modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.2s ease;
+        }
+
+        .close-modal:hover {
+            color: #1a1a1a;
+            transform: rotate(90deg);
+        }
+
+        /* Analytics Dashboard Styles */
+        .analytics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .analytics-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e8e8e8;
+        }
+
+        .analytics-card h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: #333;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .stat-item {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .doctors-list {
+            margin-top: 24px;
+        }
+
+        .doctors-list h4 {
+            font-size: 16px;
+            margin-bottom: 12px;
+            color: #444;
+        }
+
+        .doctor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .doctor-item:last-child {
+            border-bottom: none;
+        }
+
+        .doctor-name {
+            font-weight: 500;
+        }
+
+        .doctor-count {
+            background: #e8e8e8;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .time-period-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .time-period-btn {
+            background: #f0f0f0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .time-period-btn.active {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+
+        .close-modal-btn {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .close-modal-btn:hover {
+            background: #333;
+        }
+
         @media print {
             body {
                 background: white;
@@ -341,7 +568,9 @@
             
             .form-section,
             .print-btn,
-            .back-btn {
+            .back-btn,
+            .dashboard-btn,
+            .modal-overlay {
                 display: none;
             }
             
@@ -400,6 +629,14 @@
             body {
                 padding: 24px 16px;
             }
+
+            .dashboard-modal {
+                padding: 24px;
+            }
+
+            .analytics-container {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Mobile landscape and small tablets */
@@ -443,7 +680,7 @@
             }
 
             .clinic-subtitle {
-                font-size: 16px;
+                font-size: 13px;
             }
 
             .ticket-body {
@@ -476,6 +713,14 @@
                 font-size: 18px;
             }
 
+            .dashboard-btn {
+                bottom: 16px;
+                left: 16px;
+                width: 52px;
+                height: 52px;
+                font-size: 18px;
+            }
+
             .back-btn {
                 margin-bottom: 20px;
                 padding: 10px 16px;
@@ -486,6 +731,19 @@
                 margin-top: 12px;
                 padding: 10px;
                 font-size: 13px;
+            }
+
+            .dashboard-modal {
+                width: 95%;
+                padding: 16px;
+            }
+
+            .modal-header h2 {
+                font-size: 20px;
+            }
+
+            .stat-grid {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -509,7 +767,7 @@
             .form-group input,
             .form-group select {
                 padding: 14px 12px;
-                font-size: 16px; /* Prevents zoom on iOS */
+                font-size: 16px;
                 border-radius: 6px;
             }
 
@@ -593,6 +851,14 @@
                 font-size: 16px;
             }
 
+            .dashboard-btn {
+                bottom: 12px;
+                left: 12px;
+                width: 48px;
+                height: 48px;
+                font-size: 16px;
+            }
+
             .back-btn {
                 margin-bottom: 16px;
                 padding: 8px 14px;
@@ -605,70 +871,17 @@
                 font-size: 12px;
                 border-radius: 6px;
             }
-        }
 
-        /* Very small screens */
-        @media (max-width: 320px) {
-            .ticket-card {
-                max-width: 260px;
-                min-height: 340px;
-            }
-
-            .ticket-header {
+            .dashboard-modal {
                 padding: 12px;
             }
 
-            .clinic-name {
-                font-size: 14px;
+            .modal-header h2 {
+                font-size: 18px;
             }
 
-            .ticket-body {
-                padding: 16px 12px;
-            }
-
-            .field-label {
-                font-size: 9px;
-                min-width: 60px;
-            }
-
-            .field-value {
-                font-size: 11px;
-            }
-
-            .form-section {
-                padding: 12px;
-            }
-
-            .form-section h2 {
-                font-size: 16px;
-            }
-        }
-
-        /* Print responsive adjustments */
-        @media print {
-            /* Print multiple copies responsive layout */
-            .print-copies {
-                display: flex;
+            .time-period-selector {
                 flex-wrap: wrap;
-                justify-content: center;
-                align-items: flex-start;
-                gap: 15px;
-                padding: 10px;
-            }
-
-            .print-copies .ticket-card {
-                width: 250px;
-                min-height: 350px;
-                margin: 5px;
-                flex-shrink: 0;
-            }
-
-            /* Fit 2 tickets per row on standard paper */
-            @media print and (max-width: 8.5in) {
-                .print-copies .ticket-card {
-                    width: 3.8in;
-                    min-height: 4.5in;
-                }
             }
         }
     </style>
@@ -676,11 +889,13 @@
 <body>
     <button class="back-btn" onclick="goBack()">
         <span>←</span> Back
+    </button> <button class="back-btn" id="dashboardBtn">
+         dashboard
     </button>
     
     <div class="container">
         <div class="form-section">
-            <h2>Generate Ticket</h2>
+            <h2>Generate Medical Ticket</h2>
             <form id="ticketForm">
                 <div class="form-group">
                     <label for="doctorName">Doctor Name <span class="required">*</span></label>
@@ -738,8 +953,9 @@
         <div class="ticket-section">
             <div class="ticket-card ticket-rssb" id="ticketCard">
                 <div class="ticket-header">
+                    <div class="ticket-number" id="ticketNumber">#0001</div>
                     <h3 class="clinic-name" id="ticketClinic">Legacy Clinique</h3>
-                    <p class="clinic-subtitle">#0001</p>
+                    <p class="clinic-subtitle">Medical Appointment</p>
                 </div>
                 
                 <div class="ticket-body">
@@ -766,7 +982,8 @@
                 </div>
                 
                 <div class="ticket-footer">
-                    <p class="footer-text">Please arrive 15 minutes </p>
+                    <p class="footer-text">Please arrive 15 minutes before your appointment</p>
+                    <p class="footer-text">Bring this ticket and your ID</p>
                     <div class="barcode"></div>
                 </div>
             </div>
@@ -776,11 +993,109 @@
     <button class="print-btn" id="printBtn" onclick="printTicket()" title="Print Ticket">
         🖨️
     </button>
+
+    <!-- <button class="dashboard-btn" id="dashboardBtn" title="View Tickets Dashboard">
+        📊
+    </button> -->
+    
+    <!-- Dashboard Modal -->
+    <div class="modal-overlay" id="dashboardModal">
+        <div class="dashboard-modal">
+            <div class="modal-header">
+                <h2>Generated Tickets Analytics</h2>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            
+            <div class="time-period-selector">
+                <button class="time-period-btn active" data-period="day">Today</button>
+                <button class="time-period-btn" data-period="week">This Week</button>
+                <button class="time-period-btn" data-period="month">This Month</button>
+                <button class="time-period-btn" data-period="year">This Year</button>
+                <button class="time-period-btn" data-period="all">All Time</button>
+            </div>
+            
+            <div class="analytics-container" id="analyticsContainer">
+                <div class="analytics-card">
+                    <h3>📊 Ticket Statistics</h3>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="todayTickets">0</div>
+                            <div class="stat-label">Today</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="weekTickets">0</div>
+                            <div class="stat-label">This Week</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="monthTickets">0</div>
+                            <div class="stat-label">This Month</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="yearTickets">0</div>
+                            <div class="stat-label">This Year</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="totalTickets">0</div>
+                            <div class="stat-label">Total Tickets</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="uniqueDoctors">0</div>
+                            <div class="stat-label">Unique Doctors</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="analytics-card">
+                    <h3>👨‍⚕️ Doctors Activity</h3>
+                    <div class="doctors-list" id="doctorsList">
+                        <div class="no-data">No doctor data available</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="close-modal-btn" id="closeModalBtn">Close Dashboard</button>
+            </div>
+            <div class="modal-actions">
+                <button class="close-modal-btn" id="cleanDashboardBtn">Clean Dashboard</button>
+            </div>
+            </div>
+             
+        </div>
+    </div>
     
     <script>
         let ticketCounter = 1;
         let currentTicketData = null;
+        let ticketHistory = [];
+        let currentPeriod = 'day';
 
+        // Load saved tickets from localStorage
+        function loadTickets() {
+            const savedTickets = localStorage.getItem('medicalTickets');
+            if (savedTickets) {
+                ticketHistory = JSON.parse(savedTickets);
+                // Set counter to the highest ticket number + 1
+                if (ticketHistory.length > 0) {
+                    const maxNumber = Math.max(...ticketHistory.map(t => parseInt(t.ticketNumber)));
+                    ticketCounter = maxNumber + 1;
+                }
+            }
+        }
+
+        // Save tickets to localStorage
+        function saveTickets() {
+            localStorage.setItem('medicalTickets', JSON.stringify(ticketHistory));
+        }
+
+        document.getElementById('cleanDashboardBtn').onclick = function() {
+            if (confirm('Are you sure you want to clear all ticket history?')) {
+                localStorage.removeItem('medicalTickets');
+                ticketHistory = [];
+                updateDashboard();
+            }
+        };
+            
         // Insurance color mapping with your custom palette
         const insuranceColors = {
             'RSSB': { class: 'rssb', name: 'RSSB - Sage Green Theme' },
@@ -803,6 +1118,142 @@
             const ticketCard = document.getElementById('ticketCard');
             ticketCard.className = `ticket-card ticket-${colorData.class}`;
         });
+
+        // Dashboard modal functionality
+        const dashboardBtn = document.getElementById('dashboardBtn');
+        const dashboardModal = document.getElementById('dashboardModal');
+        const closeModal = document.getElementById('closeModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const periodButtons = document.querySelectorAll('.time-period-btn');
+
+        dashboardBtn.addEventListener('click', function() {
+            loadTickets();
+            updateDashboard();
+            dashboardModal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', function() {
+            dashboardModal.classList.remove('active');
+        });
+
+        closeModalBtn.addEventListener('click', function() {
+            dashboardModal.classList.remove('active');
+        });
+
+        // Period selector functionality
+        periodButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                periodButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentPeriod = this.dataset.period;
+                updateDashboard();
+            });
+        });
+
+        // Close modal when clicking outside
+        dashboardModal.addEventListener('click', function(e) {
+            if (e.target === dashboardModal) {
+                dashboardModal.classList.remove('active');
+            }
+        });
+
+        // Calculate statistics for the dashboard
+        function calculateStatistics() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const weekAgo = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+            const monthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+            const yearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+            
+            let todayCount = 0;
+            let weekCount = 0;
+            let monthCount = 0;
+            let yearCount = 0;
+            let totalCount = 0;
+            const doctorsMap = new Map();
+            
+            ticketHistory.forEach(ticket => {
+                const ticketDate = new Date(ticket.generatedAt);
+                // Count each copy as a separate ticket
+                const ticketCopies = ticket.copies || 1;
+                totalCount += ticketCopies;
+                
+                // Count by time periods
+                if (ticketDate >= today) todayCount += ticketCopies;
+                if (ticketDate >= weekAgo) weekCount += ticketCopies;
+                if (ticketDate >= monthAgo) monthCount += ticketCopies;
+                if (ticketDate >= yearAgo) yearCount += ticketCopies;
+                
+                // Count doctors
+                if (ticket.doctorName) {
+                    if (doctorsMap.has(ticket.doctorName)) {
+                        doctorsMap.set(ticket.doctorName, doctorsMap.get(ticket.doctorName) + ticketCopies);
+                    } else {
+                        doctorsMap.set(ticket.doctorName, ticketCopies);
+                    }
+                }
+            });
+            
+            // Sort doctors by ticket count (descending)
+            const sortedDoctors = Array.from(doctorsMap.entries()).sort((a, b) => b[1] - a[1]);
+            
+            return {
+                todayCount,
+                weekCount,
+                monthCount,
+                yearCount,
+                totalCount,
+                uniqueDoctors: doctorsMap.size,
+                sortedDoctors
+            };
+        }
+
+        function updateDashboard() {
+            const stats = calculateStatistics();
+            
+            // Update statistics
+            document.getElementById('todayTickets').textContent = stats.todayCount;
+            document.getElementById('weekTickets').textContent = stats.weekCount;
+            document.getElementById('monthTickets').textContent = stats.monthCount;
+            document.getElementById('yearTickets').textContent = stats.yearCount;
+            document.getElementById('totalTickets').textContent = stats.totalCount;
+            document.getElementById('uniqueDoctors').textContent = stats.uniqueDoctors;
+            
+            // Update doctors list
+            const doctorsList = document.getElementById('doctorsList');
+            doctorsList.innerHTML = '';
+            
+            if (stats.sortedDoctors.length === 0) {
+                doctorsList.innerHTML = '<div class="no-data">No doctor data available</div>';
+                return;
+            }
+            
+            stats.sortedDoctors.forEach(([doctor, count]) => {
+                const doctorItem = document.createElement('div');
+                doctorItem.className = 'doctor-item';
+                doctorItem.innerHTML = `
+                    <span class="doctor-name">${doctor}</span>
+                    <span class="doctor-count">${count}</span>
+                `;
+                doctorsList.appendChild(doctorItem);
+            });
+        }
+
+        function updateTicketPreview() {
+            if (!currentTicketData) return;
+            
+            document.getElementById('ticketNumber').textContent = `#${currentTicketData.ticketNumber}`;
+            document.getElementById('ticketClinic').textContent = currentTicketData.clinicName;
+            document.getElementById('ticketDoctor').textContent = currentTicketData.doctorName;
+            document.getElementById('ticketDepartment').textContent = currentTicketData.department;
+            document.getElementById('ticketInsurance').textContent = currentTicketData.insurance;
+            document.getElementById('ticketDate').textContent = currentTicketData.formattedDate;
+            document.getElementById('ticketTime').textContent = currentTicketData.currentTime;
+            
+            const ticketCard = document.getElementById('ticketCard');
+            const colorData = insuranceColors[currentTicketData.insurance] || { class: 'default' };
+            ticketCard.className = `ticket-card ticket-${colorData.class}`;
+        }
 
         document.getElementById('ticketForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -848,40 +1299,34 @@
                 insurance: insurance || 'Not specified',
                 formattedDate,
                 currentTime,
-                copies
+                copies,
+                ticketNumber: String(ticketCounter).padStart(4, '0'),
+                insuranceClass: insuranceColors[insurance]?.class || 'default',
+                generatedAt: new Date().toISOString()
             };
 
-            // Update ticket elements
-            document.getElementById('ticketNumber').textContent = `#${String(ticketCounter).padStart(4, '0')}`;
-            document.getElementById('ticketClinic').textContent = currentTicketData.clinicName;
-            document.getElementById('ticketDoctor').textContent = doctorName;
-            document.getElementById('ticketDepartment').textContent = department;
-            document.getElementById('ticketInsurance').textContent = currentTicketData.insurance;
-            document.getElementById('ticketDate').textContent = formattedDate;
-            document.getElementById('ticketTime').textContent = currentTime;
+            // Add to history (one entry regardless of copies)
+            ticketHistory.unshift(currentTicketData);
+            saveTickets();
 
-            // Update ticket color based on insurance
-            const ticketCard = document.getElementById('ticketCard');
-            const colorData = insuranceColors[insurance] || { class: 'default' };
-            ticketCard.className = `ticket-card ticket-${colorData.class}`;
+            // Update ticket elements
+            updateTicketPreview();
 
             // Add animation effect
+            const ticketCard = document.getElementById('ticketCard');
             ticketCard.style.transform = 'scale(1.02)';
             setTimeout(() => {
                 ticketCard.style.transform = 'scale(1)';
             }, 200);
 
-            // Increment counter for next ticket
-            ticketCounter++;
+            // Increment counter by the number of copies for next ticket
+            ticketCounter += copies;
 
             // Scroll to ticket on mobile
             if (window.innerWidth <= 768) {
                 ticketCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         });
-
-        // Set today's date as default
-        document.getElementById('appointmentDate').valueAsDate = new Date();
 
         function printTicket() {
             if (!currentTicketData) {
@@ -896,12 +1341,12 @@
             
             for (let i = 0; i < copies; i++) {
                 const colorData = insuranceColors[currentTicketData.insurance] || { class: 'default' };
-                const ticketNumber = String(ticketCounter - 1 + i).padStart(4, '0');
                 
+                // Use the same ticket number for all copies
                 printContent += `
                     <div class="ticket-card ticket-${colorData.class}">
                         <div class="ticket-header">
-                            <div class="ticket-number">#${ticketNumber}</div>
+                            <div class="ticket-number">#${currentTicketData.ticketNumber}</div>
                             <h3 class="clinic-name">${currentTicketData.clinicName}</h3>
                             <p class="clinic-subtitle">Medical Appointment</p>
                         </div>
@@ -949,9 +1394,6 @@
             
             // Restore original content
             document.querySelector('.ticket-section').innerHTML = originalContent;
-            
-            // Update counter for next batch
-            ticketCounter += copies - 1;
         }
 
         function goBack() {
@@ -972,6 +1414,12 @@
                 this.style.transform = 'translateY(0) scale(1)';
             }
         });
+
+        // Set today's date as default
+        document.getElementById('appointmentDate').valueAsDate = new Date();
+
+        // Load any saved tickets when page loads
+        loadTickets();
     </script>
 </body>
 </html>
